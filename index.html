@@ -1,0 +1,725 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CareForAll - Complete Senior Healthcare Platform</title>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Noto+Sans+Tamil:wght@400;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+  <!-- Top Notification & Audio Permission Banner -->
+  <aside id="permissionBanner" class="permission-banner" role="region" aria-label="Audio and Notification Permissions">
+    <div class="banner-content">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
+        <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
+      </svg>
+      <span id="permissionBannerText" data-i18n="enableAlertsPrompt">Enable Audio & Notifications for scheduled reminders</span>
+    </div>
+    <button id="enableAlertsBtn" class="banner-btn" data-i18n="enableBtn">Enable Alerts</button>
+  </aside>
+
+  <!-- Navbar matching CareForAll reference design -->
+  <header class="navbar">
+    <div class="nav-container">
+      <a class="brand-logo" data-nav-view="home" aria-label="CareForAll Home">
+        <div class="brand-icon-wrap">
+          <svg viewBox="0 0 24 24">
+            <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+          </svg>
+        </div>
+        <span class="brand-name">Care<span>ForAll</span></span>
+      </a>
+
+      <!-- Full Primary Navigation Links -->
+      <nav aria-label="Primary Navigation">
+        <ul class="nav-links">
+          <li><a class="nav-link" data-nav-view="home" data-view="home" data-i18n="navHome">Home</a></li>
+          <li><a class="nav-link active" data-nav-view="dashboard" data-view="dashboard" data-i18n="navDashboard">Dashboard</a></li>
+          <li><a class="nav-link" data-nav-view="assistant" data-view="assistant" data-i18n="navAssistant">Assistant</a></li>
+          <li><a class="nav-link" data-nav-view="caregiver" data-view="caregiver" data-i18n="navCaregiver">Caregiver Hub</a></li>
+          <li><a class="nav-link" data-nav-view="calendar" data-view="calendar" data-i18n="navCalendar">Calendar & Reports</a></li>
+          <li><a class="nav-link" data-nav-view="plans" data-view="plans" data-i18n="navPlans">Plans</a></li>
+        </ul>
+      </nav>
+
+      <div class="nav-actions">
+        <!-- Notification Bell with Pending Count Badge -->
+        <button class="util-btn bell-btn" id="bellBtn" title="Pending Reminders" onclick="app.openModal('emergencyModal')">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
+            <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
+          </svg>
+          <span class="bell-badge" id="bellBadge">2</span>
+        </button>
+
+        <!-- Language Switcher: Tamil / English -->
+        <button class="util-btn" id="langToggleBtn" title="Switch Language (தமிழ் / English)">
+          தமிழ்
+        </button>
+
+        <!-- Elder Large Text Mode Toggle -->
+        <button class="util-btn" id="textToggleBtn" title="Elder Accessibility - Large Font">
+          A / A+
+        </button>
+
+        <!-- Dark Mode Toggle -->
+        <button class="util-btn" id="darkToggleBtn" title="Toggle Dark Theme">
+          🌙
+        </button>
+
+        <!-- User Profile Pill (Matching Screenshot) -->
+        <div class="user-profile-pill" id="userProfilePill" title="Switch Elderly Profile">
+          <div class="user-avatar-mini" id="navAvatarMini">G</div>
+          <span id="navProfileName">sharshitsingh007@gmail.com</span>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Multi-View SPA Container -->
+  <main class="main-wrapper">
+
+    <!-- ==============================================
+         VIEW 1: HOME / LANDING PAGE
+    ============================================== -->
+    <section id="view-home" class="page-view">
+      <div class="home-hero">
+        <div>
+          <div class="hero-pill-badge" data-i18n="heroBadge">Specialized Senior Healthcare Companion</div>
+          <h1 class="hero-title" data-i18n="heroTitle">Dignified Healthcare & Smart Reminders for <span>Elder Citizens</span></h1>
+          <p class="hero-desc" data-i18n="heroDesc">
+            Empowering elderly parents and grandparents to manage daily prescriptions independently with native Tamil & English voice guidance, while giving family caregivers total peace of mind.
+          </p>
+          <div class="hero-actions">
+            <button class="btn-primary" data-nav-view="dashboard" data-i18n="heroCtaTracker">Open Medicine Tracker</button>
+            <button class="btn-secondary" data-nav-view="assistant" data-i18n="heroCtaVoice">Try Voice Assistant 🎙️</button>
+          </div>
+        </div>
+
+        <!-- Live interactive preview card -->
+        <div class="hero-interactive-card">
+          <div class="hero-preview-header">
+            <div style="font-weight: 700; color: var(--primary);">☀️ Morning Dose (Due Now)</div>
+            <span class="time-badge">🕒 08:00 AM</span>
+          </div>
+          <h3 style="font-size: 1.5rem; font-weight: 800; margin-bottom: 4px;">Metformin 500mg</h3>
+          <p style="color: var(--text-secondary); margin-bottom: 16px;">Take 1 Tablet after breakfast with water (காலை உணவுக்குப் பின்)</p>
+          <div style="display: flex; gap: 12px;">
+            <button class="btn-card-listen" style="padding: 10px 18px;" onclick="app.speak('Hello Grandpa, it is time for Metformin 500 milligrams after breakfast.')">
+              🔊 Hear Instruction
+            </button>
+            <button class="btn-primary" style="background: #10b981; padding: 10px 18px;" onclick="app.navigate('dashboard')">
+              ✓ Mark Taken
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Feature Highlights Grid -->
+      <div class="home-features-grid">
+        <div class="feature-box">
+          <div class="feature-box-icon">🎙️</div>
+          <h3 data-i18n="feature1Title">Bilingual Spoken Reminders</h3>
+          <p data-i18n="feature1Desc">Clear, gentle voice guidance in natural Tamil and English at a slower pacing tailored for elderly comprehension.</p>
+        </div>
+        <div class="feature-box">
+          <div class="feature-box-icon">👆</div>
+          <h3 data-i18n="feature2Title">One-Tap Acknowledgment</h3>
+          <p data-i18n="feature2Desc">Oversized buttons and high-contrast visuals make confirming medications effortless, even with unsteady hands.</p>
+        </div>
+        <div class="feature-box">
+          <div class="feature-box-icon">❤️</div>
+          <h3 data-i18n="feature3Title">Family Caregiver Peace of Mind</h3>
+          <p data-i18n="feature3Desc">Instant emergency SOS, WhatsApp status updates, and missed medication alerts protect loved ones 24/7.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==============================================
+         VIEW 2: MEDICINE TRACKER & DASHBOARD
+    ============================================== -->
+    <section id="view-dashboard" class="page-view active">
+
+      <!-- Section Header Matching Screenshot -->
+      <div class="section-header">
+        <div>
+          <h1 class="page-title" data-i18n="medicineTracker">Medicine Tracker</h1>
+          <p class="page-subtitle" data-i18n="trackerSubtitle">Never miss a dose with smart reminders</p>
+        </div>
+
+        <div class="header-action-group">
+          <button class="btn-emergency" id="emergencySosBtn">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+              <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
+            </svg>
+            <span data-i18n="emergencyContact">Emergency SOS</span>
+          </button>
+
+          <button class="btn-primary" id="addMedBtn">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+              <line x1="12" y1="5" x2="12" y2="19"></line>
+              <line x1="5" y1="12" x2="19" y2="12"></line>
+            </svg>
+            <span data-i18n="addMedicine">+ Add Medicine</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Section 2: 4 KPI Cards Grid -->
+      <div class="kpi-grid" aria-label="Medicine Counters">
+        <!-- 04 Today's Medicines -->
+        <div class="kpi-card kpi-today">
+          <div class="kpi-icon-wrap">💊</div>
+          <div class="kpi-info">
+            <span class="kpi-number" id="kpiTotalVal">04</span>
+            <span class="kpi-label" data-i18n="kpiToday">Today's medicines</span>
+          </div>
+        </div>
+
+        <!-- 02 Acknowledged -->
+        <div class="kpi-card kpi-taken">
+          <div class="kpi-icon-wrap">✓</div>
+          <div class="kpi-info">
+            <span class="kpi-number" id="kpiAckVal">02</span>
+            <span class="kpi-label" data-i18n="kpiAcknowledged">Acknowledged</span>
+          </div>
+        </div>
+
+        <!-- 02 Upcoming -->
+        <div class="kpi-card kpi-upcoming">
+          <div class="kpi-icon-wrap">⏳</div>
+          <div class="kpi-info">
+            <span class="kpi-number" id="kpiUpVal">02</span>
+            <span class="kpi-label" data-i18n="kpiUpcoming">Upcoming</span>
+          </div>
+        </div>
+
+        <!-- 00 Missed -->
+        <div class="kpi-card kpi-missed">
+          <div class="kpi-icon-wrap">⚠️</div>
+          <div class="kpi-info">
+            <span class="kpi-number" id="kpiMissVal">00</span>
+            <span class="kpi-label" data-i18n="kpiMissed">Missed</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Active Due Banner (Appears when dose is due) -->
+      <div id="activeDueBanner" class="active-due-banner" style="display: none;">
+        <div class="due-banner-content">
+          <div class="due-pill-icon">🔔</div>
+          <div>
+            <div class="due-banner-title" id="dueMedTitle">Dolo (650mg)</div>
+            <div class="due-banner-desc" id="dueMedDesc">1 Tablet · Take now with water</div>
+          </div>
+        </div>
+        <div class="due-banner-actions">
+          <button class="btn-secondary" id="dueListenBtn">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+              <path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+            </svg>
+            <span data-i18n="listenVoice">Listen Voice</span>
+          </button>
+          <button class="btn-primary" id="dueMarkTakenBtn" style="background: #10b981;">
+            ✓ <span data-i18n="markTaken">Mark as Taken</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Filter Tabs Matching Reference Screenshot -->
+      <div class="filter-tabs-container">
+        <div class="filter-pills-wrap">
+          <button class="filter-pill active" data-filter="today">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="12" cy="12" r="10"></circle>
+              <polyline points="12 6 12 12 16 14"></polyline>
+            </svg>
+            <span data-i18n="filterToday">Today</span> <span id="todayPendingCount" style="color: var(--text-muted); font-size: 0.85rem;">(2 pending)</span>
+          </button>
+          <button class="filter-pill" data-filter="morning">
+            ☀️ <span data-i18n="filterMorning">Morning</span>
+          </button>
+          <button class="filter-pill" data-filter="afternoon">
+            🌤️ <span data-i18n="filterAfternoon">Afternoon</span>
+          </button>
+          <button class="filter-pill" data-filter="night">
+            🌙 <span data-i18n="filterNight">Night</span>
+          </button>
+          <button class="filter-pill" data-filter="all">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path>
+              <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path>
+            </svg>
+            <span data-i18n="filterAll">All Medicines</span>
+          </button>
+        </div>
+
+        <button class="voice-assistant-quick-btn" onclick="app.speakAllSchedule()" title="Speak All Medicine Schedule">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"></path>
+            <path d="M19 10v2a7 7 0 0 1-14 0v-2"></path>
+            <line x1="12" y1="19" x2="12" y2="23"></line>
+            <line x1="8" y1="23" x2="16" y2="23"></line>
+          </svg>
+          <span data-i18n="speakAll">Read Today's Schedule</span>
+        </button>
+      </div>
+
+      <!-- Medicine Cards Grid (Replicating Screenshot Layout) -->
+      <div class="medicines-grid" id="medicinesGrid">
+        <!-- Dynamically injected by app.js -->
+      </div>
+    </section>
+
+    <!-- ==============================================
+         VIEW 3: VOICE ASSISTANT INTERACTIVE CONSOLE
+    ============================================== -->
+    <section id="view-assistant" class="page-view">
+      <div class="assistant-console">
+        <div class="assistant-avatar-sphere" id="assistantSphere" onclick="app.speakAllSchedule()" title="Click to Speak Schedule">
+          🎙️
+        </div>
+        <h2 style="font-size: 2rem; font-weight: 800; margin-bottom: 6px;" data-i18n="assistantTitle">Smart Senior Voice Assistant</h2>
+        <p style="color: var(--text-muted); font-size: 1.1rem;" data-i18n="assistantSubtitle">Tap the sphere or choose a question below. We speak Tamil & English.</p>
+
+        <div class="assistant-prompts-grid">
+          <div class="voice-action-btn" onclick="app.speakNextMedicine()">
+            <div class="voice-action-icon">⏰</div>
+            <div class="voice-action-text">
+              <strong data-i18n="assistantPrompt1">What is my next medicine?</strong>
+              <span data-i18n="assistantPrompt1Desc">Find out the immediate next upcoming pill and timing.</span>
+            </div>
+          </div>
+
+          <div class="voice-action-btn" onclick="app.speakAllSchedule()">
+            <div class="voice-action-icon">📋</div>
+            <div class="voice-action-text">
+              <strong data-i18n="assistantPrompt2">Read all today's medicines</strong>
+              <span data-i18n="assistantPrompt2Desc">Complete audio summary of morning, afternoon, and night doses.</span>
+            </div>
+          </div>
+
+          <div class="voice-action-btn" onclick="app.speakMorningCheck()">
+            <div class="voice-action-icon">☀️</div>
+            <div class="voice-action-text">
+              <strong data-i18n="assistantPrompt3">Did I take morning medicine?</strong>
+              <span data-i18n="assistantPrompt3Desc">Check acknowledgment status for morning doses.</span>
+            </div>
+          </div>
+
+          <div class="voice-action-btn" onclick="app.playChime(); app.speak(app.currentLang === 'ta' ? 'வணக்கம், குரல் மற்றும் ஒலி அமைப்புகள் சரியாக செயல்படுகின்றன.' : 'Hello, audio chime and voice assistant are functioning perfectly.')">
+            <div class="voice-action-icon">🔊</div>
+            <div class="voice-action-text">
+              <strong data-i18n="assistantPrompt4">Test Voice & Audio Chime</strong>
+              <span data-i18n="assistantPrompt4Desc">Verify speaker volume and natural pronunciation.</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==============================================
+         VIEW 4: CAREGIVER HUB & MULTI-PROFILE MONITORING
+    ============================================== -->
+    <section id="view-caregiver" class="page-view">
+      <div class="caregiver-hero-banner">
+        <div>
+          <h2 style="font-size: 1.85rem; font-weight: 800; margin-bottom: 6px;" data-i18n="caregiverTitle">Caregiver Monitoring Hub</h2>
+          <p style="opacity: 0.9; font-size: 1.05rem;" data-i18n="caregiverSubtitle">Real-time oversight, multi-senior management, and emergency response</p>
+        </div>
+        <div style="display: flex; gap: 12px; flex-wrap: wrap;">
+          <button class="btn-primary" id="addElderBtn" data-i18n="addElderBtn">+ Register New Senior</button>
+          <button class="btn-secondary" onclick="app.exportData()" style="color: #fff; border-color: rgba(255,255,255,0.3); background: rgba(255,255,255,0.1);" data-i18n="exportDataBtn">Download Medical Backup (JSON)</button>
+        </div>
+      </div>
+
+      <div class="profiles-management-grid" id="caregiverProfilesList">
+        <!-- Injected dynamically by app.js -->
+      </div>
+    </section>
+
+    <!-- ==============================================
+         VIEW 5: CALENDAR & ADHERENCE REPORTS
+    ============================================== -->
+    <section id="view-calendar" class="page-view">
+      <div class="section-header">
+        <div>
+          <h2 class="page-title" data-i18n="calendarTitle">Medicine Schedule & Compliance Calendar</h2>
+          <p class="page-subtitle" data-i18n="calendarSubtitle">Select any date to inspect historical adherence and upcoming prescriptions</p>
+        </div>
+      </div>
+
+      <div class="calendar-layout">
+        <div class="calendar-matrix-card">
+          <div style="display: flex; align-items: center; justify-content: space-between;">
+            <h3 style="font-size: 1.25rem; font-weight: 700;">January 2026</h3>
+            <span style="font-size: 0.88rem; color: var(--success); font-weight: 700;">● 92% Compliance</span>
+          </div>
+          <div class="calendar-days-grid" id="calendarDaysGrid">
+            <!-- Injected dynamically by app.js -->
+          </div>
+        </div>
+
+        <div id="calendarSelectedDayDetails">
+          <div style="background: var(--bg-card); border: 1px solid var(--border-color); border-radius: var(--radius-xl); padding: 24px; text-align: center;">
+            <p style="color: var(--text-muted);">Click any day on the calendar to see that day's scheduled medicines and taken status.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==============================================
+         VIEW 6: HEALTHCARE PLANS
+    ============================================== -->
+    <section id="view-plans" class="page-view">
+      <div style="text-align: center; margin-bottom: 30px;">
+        <h2 class="page-title" data-i18n="plansTitle">Transparent Healthcare Plans</h2>
+        <p class="page-subtitle" data-i18n="plansSubtitle">Simple options for seniors and extended families</p>
+      </div>
+
+      <div class="plans-grid">
+        <!-- Plan 1 -->
+        <div class="plan-card">
+          <h3 class="plan-name" data-i18n="freePlanName">Senior Citizen Essential</h3>
+          <div class="plan-price">₹0 <span>/ forever free</span></div>
+          <p style="color: var(--text-muted); font-size: 0.95rem;">Ideal for independent seniors managing their own routine.</p>
+          <ul class="plan-features-list">
+            <li class="plan-feature-item">✓ Unlimited Medicine Reminders</li>
+            <li class="plan-feature-item">✓ Bilingual Voice Assistant (Tamil + English)</li>
+            <li class="plan-feature-item">✓ LocalStorage Private Data Vault</li>
+            <li class="plan-feature-item">✓ Audio Chimes & Desktop Alerts</li>
+          </ul>
+          <button class="btn-secondary" style="margin-top: auto; justify-content: center;" data-nav-view="dashboard">Current Plan</button>
+        </div>
+
+        <!-- Plan 2 -->
+        <div class="plan-card featured-plan">
+          <span class="plan-badge">MOST POPULAR</span>
+          <h3 class="plan-name" data-i18n="proPlanName">Family Caregiver Plus</h3>
+          <div class="plan-price">₹199 <span>/ month</span></div>
+          <p style="color: var(--text-muted); font-size: 0.95rem;">For sons and daughters monitoring elderly parents remotely.</p>
+          <ul class="plan-features-list">
+            <li class="plan-feature-item">✓ Everything in Essential Plan</li>
+            <li class="plan-feature-item">✓ Real-time SMS & WhatsApp Missed Dose Alerts</li>
+            <li class="plan-feature-item">✓ Multi-Elder Profiles (Manage Parents & In-laws)</li>
+            <li class="plan-feature-item">✓ 1-Click Monthly Doctor PDF Compliance Reports</li>
+          </ul>
+          <button class="btn-primary" style="margin-top: auto; justify-content: center;">Start 30-Day Free Trial</button>
+        </div>
+
+        <!-- Plan 3 -->
+        <div class="plan-card">
+          <h3 class="plan-name" data-i18n="enterprisePlanName">Elder Home & Assisted Care</h3>
+          <div class="plan-price">₹999 <span>/ month</span></div>
+          <p style="color: var(--text-muted); font-size: 0.95rem;">Designed for retirement homes and nursing staff.</p>
+          <ul class="plan-features-list">
+            <li class="plan-feature-item">✓ Up to 50 Senior Resident Profiles</li>
+            <li class="plan-feature-item">✓ Central Nurse Station Dashboard</li>
+            <li class="plan-feature-item">✓ Pharmacy Refill Inventory Tracking</li>
+            <li class="plan-feature-item">✓ Dedicated 24/7 Priority Support</li>
+          </ul>
+          <button class="btn-secondary" style="margin-top: auto; justify-content: center;">Contact Care Specialist</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Common Medical Disclaimer Banner -->
+    <aside class="disclaimer-banner" role="note">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color: var(--warning); flex-shrink: 0;">
+        <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path>
+        <line x1="12" y1="9" x2="12" y2="13"></line>
+        <line x1="12" y1="17" x2="12.01" y2="17"></line>
+      </svg>
+      <div>
+        <strong data-i18n="disclaimer">Illustrative dashboard data, not medical instructions. Always follow your physician's prescription.</strong>
+        <div style="font-size: 0.85rem; color: var(--text-muted); margin-top: 2px;">(மருத்துவ ஆலோசனைகளுக்கு எப்போதும் உங்கள் குடும்ப மருத்துவரை அணுகவும்.)</div>
+      </div>
+    </aside>
+
+  </main>
+
+  <!-- ==============================================
+       MODALS: ADD MED | ADD ELDER | SOS | PROFILE
+  ============================================== -->
+
+  <!-- Add Medicine Modal -->
+  <div class="modal-overlay" id="addMedModal" role="dialog" aria-modal="true" aria-labelledby="addMedTitle">
+    <div class="modal-dialog">
+      <div class="modal-header">
+        <h2 class="modal-title" id="addMedTitle" data-i18n="addMedicine">+ Add Medicine</h2>
+        <button class="modal-close-btn" aria-label="Close modal">&times;</button>
+      </div>
+      <form id="addMedForm">
+        <div class="modal-body">
+          <div class="form-group">
+            <label class="form-label" for="formMedName">Medicine Name</label>
+            <input type="text" id="formMedName" class="form-input" placeholder="e.g. Dolo, Paracetamol, Metformin" required>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label" for="formDosage">Dosage / Strength</label>
+              <input type="text" id="formDosage" class="form-input" placeholder="e.g. 650mg, 500mg, 5ml" required>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="formCount">Tablet Count</label>
+              <input type="number" id="formCount" class="form-input" value="1" min="1" max="10" required>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label" for="formSlot">Time Slot</label>
+              <select id="formSlot" class="form-select">
+                <option value="morning">Morning (காலை)</option>
+                <option value="afternoon">Afternoon (மதியம்)</option>
+                <option value="night">Night (இரவு)</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="formTime">Time (HH:MM)</label>
+              <input type="time" id="formTime" class="form-input" value="08:00" required>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="formInstruction">Food Instruction</label>
+            <select id="formInstruction" class="form-select">
+              <option value="takeNow">take now (இப்போது சாப்பிடவும்)</option>
+              <option value="takeAfterBreakfast">take after breakfast (காலை உணவுக்குப் பின்)</option>
+              <option value="takeAfterLunch">take after lunch (மதிய உணவுக்குப் பின்)</option>
+              <option value="takeBeforeFood">take before food (உணவுக்கு முன்)</option>
+              <option value="takeBeforeBed">take before bed (இரவு படுக்கும் முன்)</option>
+            </select>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label" for="formStartDate">Start Date</label>
+              <input type="date" id="formStartDate" class="form-input" value="2026-01-15">
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="formEndDate">End Date</label>
+              <input type="date" id="formEndDate" class="form-input" value="2026-01-22">
+            </div>
+          </div>
+        </div>
+
+        <div class="modal-footer">
+          <button type="button" class="btn-secondary modal-cancel-btn" data-i18n="cancelBtn">Cancel</button>
+          <button type="submit" class="btn-primary" data-i18n="saveBtn">Save Medicine</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Add New Elder Profile Modal -->
+  <div class="modal-overlay" id="addElderModal" role="dialog" aria-modal="true" aria-labelledby="addElderTitle">
+    <div class="modal-dialog">
+      <div class="modal-header">
+        <h2 class="modal-title" id="addElderTitle">Register New Senior</h2>
+        <button class="modal-close-btn" aria-label="Close modal">&times;</button>
+      </div>
+      <form id="addElderForm">
+        <div class="modal-body">
+          <div class="form-group">
+            <label class="form-label" for="elderName">Full Name</label>
+            <input type="text" id="elderName" class="form-input" placeholder="e.g. Grandpa Subramanian" required>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label" for="elderAge">Age</label>
+              <input type="number" id="elderAge" class="form-input" value="72" required>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="elderCondition">Health Condition</label>
+              <input type="text" id="elderCondition" class="form-input" placeholder="e.g. Blood Pressure, Heart">
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="elderCgName">Family Caregiver Name</label>
+            <input type="text" id="elderCgName" class="form-input" placeholder="e.g. Ramesh (Son)" required>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="elderCgPhone">Caregiver Emergency Phone</label>
+            <input type="tel" id="elderCgPhone" class="form-input" placeholder="+91 98765 43210" required>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn-secondary modal-cancel-btn">Cancel</button>
+          <button type="submit" class="btn-primary">Register Senior</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Emergency SOS Modal -->
+  <div class="modal-overlay" id="emergencyModal" role="dialog" aria-modal="true" aria-labelledby="emergencyTitle">
+    <div class="modal-dialog">
+      <div class="modal-header">
+        <h2 class="modal-title" id="emergencyTitle" style="color: var(--danger); display: flex; align-items: center; gap: 8px;">
+          🚨 <span data-i18n="emergencyContact">Emergency SOS & Caregiver</span>
+        </h2>
+        <button class="modal-close-btn" aria-label="Close modal">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div style="background-color: var(--danger-light); padding: 18px; border-radius: var(--radius-md); margin-bottom: 20px;">
+          <h3 style="font-size: 1.15rem; color: var(--danger); margin-bottom: 4px;">Family Caregiver Contact</h3>
+          <p style="font-size: 0.95rem; color: var(--text-primary);">
+            <strong id="modalCaregiverName">Anitha (Daughter)</strong><br>
+            <span id="modalCaregiverPhone" style="font-size: 1.25rem; font-weight: 700; color: #dc2626;">+91 98765 43210</span>
+          </p>
+        </div>
+
+        <div style="display: flex; gap: 12px; margin-bottom: 24px; flex-wrap: wrap;">
+          <a id="caregiverCallBtn" href="tel:+919876543210" class="btn-primary" style="background: var(--danger); flex: 1; justify-content: center; text-decoration: none;">
+            📞 <span data-i18n="callCaregiver">Call Caregiver</span>
+          </a>
+          <a id="caregiverWhatsappBtn" href="https://wa.me/919876543210" target="_blank" class="btn-primary" style="background: #25D366; flex: 1; justify-content: center; text-decoration: none;">
+            💬 <span data-i18n="whatsappAlert">WhatsApp Caregiver</span>
+          </a>
+        </div>
+
+        <div style="border-top: 1px solid var(--border-color); padding-top: 18px;">
+          <h4 style="font-size: 1rem; margin-bottom: 6px;">Doctor Information</h4>
+          <p style="color: var(--text-secondary); font-size: 0.95rem;">
+            <strong>Dr. K. Sundaram (Cardiologist)</strong><br>
+            Clinic: Apollo Hospitals, Greams Road<br>
+            Emergency Helpline: 108 / 102
+          </p>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn-secondary modal-cancel-btn" data-i18n="cancelBtn">Close</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Profile Switcher Modal -->
+  <div class="modal-overlay" id="profileModal" role="dialog" aria-modal="true" aria-labelledby="profileTitle">
+    <div class="modal-dialog">
+      <div class="modal-header">
+        <h2 class="modal-title" id="profileTitle" data-i18n="patientProfile">Select Senior Profile</h2>
+        <button class="modal-close-btn" aria-label="Close modal">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div style="display: flex; flex-direction: column; gap: 12px;">
+          <button class="btn-secondary" style="padding: 16px; text-align: left; display: flex; align-items: center; justify-content: space-between;" onclick="app.switchProfile('p1')">
+            <div>
+              <div style="font-weight: 700; font-size: 1.1rem;">தாத்தா (Grandpa Ramasamy)</div>
+              <div style="font-size: 0.88rem; color: var(--text-muted);">Age 74 · Blood Pressure & Diabetes</div>
+            </div>
+            <span>👉 Switch</span>
+          </button>
+
+          <button class="btn-secondary" style="padding: 16px; text-align: left; display: flex; align-items: center; justify-content: space-between;" onclick="app.switchProfile('p2')">
+            <div>
+              <div style="font-weight: 700; font-size: 1.1rem;">பாட்டி (Grandma Lakshmi)</div>
+              <div style="font-size: 0.88rem; color: var(--text-muted);">Age 70 · Multivitamins & Arthritis</div>
+            </div>
+            <span>👉 Switch</span>
+          </button>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn-secondary modal-cancel-btn" data-i18n="cancelBtn">Cancel</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- CareForAll Footer Matching Reference Screenshot -->
+  <footer class="footer">
+    <div class="footer-container">
+      <div class="footer-grid">
+        <!-- Brand & Mission Column -->
+        <div class="footer-brand-col">
+          <a class="brand-logo" data-nav-view="home" style="margin-bottom: 14px;">
+            <div class="brand-icon-wrap">
+              <svg viewBox="0 0 24 24">
+                <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+              </svg>
+            </div>
+            <span class="brand-name">Care<span>ForAll</span></span>
+          </a>
+          <p class="footer-tagline">
+            Your everyday health and mental wellness companion. Combining AI-powered guidance with professional care.
+          </p>
+          <p class="footer-quote">
+            "Healing happens one day at a time."
+          </p>
+        </div>
+
+        <!-- Platform Column -->
+        <div>
+          <h3 class="footer-col-title">Platform</h3>
+          <ul class="footer-links">
+            <li><a class="footer-link" data-nav-view="assistant">AI Assistant</a></li>
+            <li><a class="footer-link" data-nav-view="dashboard">Daily Check-In</a></li>
+            <li><a class="footer-link" data-nav-view="plans">Subscription Plans</a></li>
+          </ul>
+        </div>
+
+        <!-- Support Column -->
+        <div>
+          <h3 class="footer-col-title">Support</h3>
+          <ul class="footer-links">
+            <li><a class="footer-link" data-nav-view="caregiver">Help Center</a></li>
+            <li><a class="footer-link" data-nav-view="home">Privacy Policy</a></li>
+            <li><a class="footer-link" data-nav-view="home">Terms of Service</a></li>
+            <li><a class="footer-link" data-nav-view="caregiver">Contact Us</a></li>
+          </ul>
+        </div>
+
+        <!-- For Professionals Column -->
+        <div>
+          <h3 class="footer-col-title">For Professionals</h3>
+          <ul class="footer-links">
+            <li><a class="footer-link" data-nav-view="caregiver">Doctor Portal</a></li>
+            <li><a class="footer-link" data-nav-view="plans">Join Our Network</a></li>
+            <li><a class="footer-link" data-nav-view="plans">Partner With Us</a></li>
+          </ul>
+        </div>
+
+        <!-- Contact Column -->
+        <div>
+          <h3 class="footer-col-title">Contact</h3>
+          <div class="contact-item">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+              <polyline points="22,6 12,13 2,6"></polyline>
+            </svg>
+            <span>support@careforall.com</span>
+          </div>
+          <div class="contact-item">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
+            </svg>
+            <span>1-800-CARE-4ALL</span>
+          </div>
+          <div class="contact-item">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="12" cy="12" r="10"></circle>
+              <line x1="2" y1="12" x2="22" y2="12"></line>
+              <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path>
+            </svg>
+            <span>Available Worldwide</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <p>© 2026 CareForAll Inc. All rights reserved. Senior Healthcare Companion.</p>
+        <p>Built with ❤️ for elder care and safe medication adherence.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>
